@@ -1,0 +1,6 @@
+# DEMO: this file is irrelevant for the POC
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: uvicorn --host 0.0.0.0 --port $PORT authal.main:app
