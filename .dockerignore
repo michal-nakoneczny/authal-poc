@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# Whitelist all files that need to be copied
+# https://kevinpollet.dev/posts/how-to-use-your-dockerignore-as-a-whitelist/
+!pyproject.toml
+!poetry.lock
+!authal
+!run.sh
+
+# Blacklist nested pycache
+**/__pycache__

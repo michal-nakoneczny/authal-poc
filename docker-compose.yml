@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  mongodb:
+    image: mongo:4.0
+    container_name: authal-mongodb
+    networks:
+      - internal
+    ports:
+      # set this environment variable to avoid a port conflict on the host
+      #- "${HOST_DB_PORT}:27017"
+      - "27017:27017" # tentative config
+    volumes:
+      - "./migrations:/mnt"
+      - "./db_data:/data/db:rw"
+
+  authal:
+    build: .
+    image: authal-app
+    container_name: authal-app
+    depends_on:
+      - mongodb
+    networks:
+      - internal
+      - external
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./:/srv"
+    environment:
+      MONGODB_URL: ${MONGODB_URL}
+
+networks:
+  external:
+    driver: bridge
+  internal:
+    driver: bridge
