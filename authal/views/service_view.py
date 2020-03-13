@@ -4,6 +4,7 @@ from authal import config, domain, dto
 
 router = APIRouter()
 
+
 # DEMO: async view getting data from an external service through the domain
 @router.get("/services/cat-api", operation_id="cat_api_example_view")
 async def cat_api_example_view() -> dto.JSON:
