@@ -10,10 +10,10 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-# DEMO: show request body handling and validation, resonse serialization, non-standard response
+# DEMO: show request body handling and validation, response serialization, non-standard response
 # status code
 @router.post("/users", status_code=HTTPStatus.CREATED)
-async def create_user(unsaved_user: dto.UnsavedUser) -> dto.User:
+async def create_user(unsaved_user: dto.UnsavedUser) -> dto.JSON:
     """
     Create view for creating a new User given an UnsavedUser payload.
 
@@ -21,7 +21,7 @@ async def create_user(unsaved_user: dto.UnsavedUser) -> dto.User:
     :return:
     """
     user = await domain.create_user(unsaved_user)
-    return user
+    return user.dict()
 
 
 # DEMO: show very verbose documentation around optional and default query params and response
@@ -59,7 +59,7 @@ async def list_users(
 @router.get("/users/{user_id}", response_model=dto.User)
 async def get_user(
     user_id: dto.UserID = Path(..., title="User ID", description="The ID of the User to get.")
-) -> dto.User:
+) -> dto.JSON:
     """
     Detail view for getting one User by ID.
 
@@ -70,4 +70,4 @@ async def get_user(
     if not user:
         raise HTTPException(status_code=404, detail="User not found.")
 
-    return user
+    return user.dict()
